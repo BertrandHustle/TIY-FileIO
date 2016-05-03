@@ -11,95 +11,84 @@ public class Main {
     public static void main(String[] args) {
 
         //init
-        Scanner scanner = new Scanner(System.in);
+
         File items = new File("items.json");
 
-            try {
+        try {
 
-                FileWriter filewriter = new FileWriter(items, true);
+            FileWriter filewriter = new FileWriter(items, true);
 
-                //Print contents of file (gonna need to deserialize here)
+            //Print contents of file (gonna need to deserialize here)
 
-                Scanner reader = new Scanner(items);
+            Scanner reader = new Scanner(items);
+            Gson gson = new GsonBuilder().create();
 
-                if (items.length() != 0) {
+            if (items.length() != 0) {
 
-                    Gson gson = new GsonBuilder().create();
+                reader.useDelimiter("\\Z");
+                String list = reader.next();
 
-                    reader.useDelimiter("\\Z");
-                    String list = reader.next();
+                Game gamePrint = gson.fromJson(list, Game.class);
 
-                    Game gamePrint = gson.fromJson(list, Game.class);
+                System.out.println(gamePrint);
 
-                    System.out.println(gamePrint);
+                String json = gson.toJson("");
 
-                    items.delete();
+                FileWriter fileOverwriter = new FileWriter(items);
 
+                fileOverwriter.write(json);
+
+            }
+
+
+             //init for object creation
+
+                String title;
+                String genre;
+                int year;
+                String system;
+                boolean completed;
+
+                Scanner scanner = new Scanner(System.in);
+
+                //Asks for user input and writes into JSON file
+
+                System.out.println("Welcome to GamesLibrary 1.0!");
+
+                System.out.println("Title?");
+                title = scanner.nextLine();
+
+                System.out.println("Genre?");
+                genre = scanner.nextLine();
+
+                System.out.println("Year?");
+
+                //needs "friendly" exception handler
+
+                year = Integer.parseInt(scanner.nextLine());
+
+                System.out.println("System?");
+                system = scanner.nextLine();
+
+                System.out.println("Completed?");
+                if (scanner.nextLine().equals("yes")) {
+                    completed = true;
+                } else {
+                    completed = false;
                 }
 
-                 //init for object creation
+                Game game = new Game(title, genre, year, system, completed);
 
-                    String title;
-                    String genre;
-                    int year;
-                    String system;
-                    boolean completed;
-
-
-
-                    //Asks for user input and writes into JSON file
-
-                    System.out.println("Welcome to GamesLibrary 1.0!");
-
-                    System.out.println("Title?");
-
-                    title = scanner.next();
-
-                    System.out.println("Genre?");
-
-                    genre = scanner.next();
-
-                    System.out.println("Year?");
-
-                    year = Integer.parseInt(scanner.next());
-
-                    System.out.println("System?");
-
-                    system = scanner.next();
-
-                    System.out.println("Completed?");
-
-                    if (scanner.next().equals("yes")) {
-
-                        completed = true;
-
-                    } else {
-
-                        completed = false;
-
-                    }
-
-                    Game game = new Game(title, genre, year, system, completed);
-
-                    Gson gson = new GsonBuilder().create();
-                    String json = gson.toJson(game);
-
-                    filewriter.write(json);
-
-                    filewriter.close();
+                String json = gson.toJson(game);
+                filewriter.write(json);
+                filewriter.close();
 
             } catch (IOException ioexception) {
-
                 System.out.println("Error! Please try again!");
+            }
 
-           }
-
-        catch (NumberFormatException nfe) {
-
-            System.out.println("enter a number please!");
-
-        }
-
-
+            catch (NumberFormatException nfe) {
+                System.out.println("enter a number please!");
+            }
     }
 }

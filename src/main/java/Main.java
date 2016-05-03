@@ -8,15 +8,15 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) {
 
         //init
         Scanner scanner = new Scanner(System.in);
         File items = new File("items.json");
 
-        FileWriter filewriter = new FileWriter(items, true);
+            try {
 
-            //try {
+                FileWriter filewriter = new FileWriter(items, true);
 
                 //Print contents of file (gonna need to deserialize here)
 
@@ -88,12 +88,17 @@ public class Main {
 
                     filewriter.close();
 
-            //} catch (IOException ioexception) {
+            } catch (IOException ioexception) {
 
-              //  System.out.println("Error! Please try again!");
+                System.out.println("Error! Please try again!");
 
+           }
 
-//            }
+        catch (NumberFormatException nfe) {
+
+            System.out.println("enter a number please!");
+
+        }
 
 
     }

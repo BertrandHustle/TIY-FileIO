@@ -13,6 +13,7 @@ public class Main {
         //init
         Scanner scanner = new Scanner(System.in);
         File items = new File("items.json");
+
         FileWriter filewriter = new FileWriter(items, true);
 
             //try {
@@ -25,14 +26,14 @@ public class Main {
 
                     Gson gson = new GsonBuilder().create();
 
-                    scanner.useDelimiter("\\Z");
+                    reader.useDelimiter("\\Z");
                     String list = reader.next();
 
                     Game gamePrint = gson.fromJson(list, Game.class);
 
                     System.out.println(gamePrint);
 
-
+                    items.delete();
 
                 }
 
